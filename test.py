@@ -19,5 +19,11 @@ def get_ticket_history(ticker, from_date, till_date):
     return response.json()
 
 
-pprint(get_ticket_history('MOEX', '2022-01-01', '2023-01-01'))
+history = get_ticket_history('MOEX', '2022-01-01', '2023-01-01')
+#pprint(history)
+
+print(history['history']['columns'])
+
+for point in history['history']['data'][:10]:
+    print(point)
 
