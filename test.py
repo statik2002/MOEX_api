@@ -6,35 +6,51 @@ import matplotlib.pyplot as plt
 
 
 def get_ticket_history(ticker, from_date, till_date):
-    url = f'https://iss.moex.com/iss/history/engines/stock/markets/shares/sessions/1/securities/{ticker}.json?'
+    url = f'https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/{ticker}/candles.json'
+
+    page = 0
+
+    response_data = []
 
     params = {
         'from': from_date,
         'till': till_date,
-        'lang': 'en',
-        'tradingsession': 3,
+        'start': page,
+        'interval': 24,
     }
-
     response = requests.get(url, params=params)
     response.raise_for_status()
 
-    return response.json()
+    for line in response.json()['candles']['data']:
+        response_data.append(line)
+
+    page += 500
+
+    while response:
+        params = {
+            'from': from_date,
+            'till': till_date,
+            'start': page,
+            'interval': 24,
+        }
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+
+        if not response.json()['candles']['data']:
+            break
+
+        for line in response.json()['candles']['data']:
+            response_data.append(line)
+        page += 500
+
+    return response_data
 
 
-history = get_ticket_history('MOEX', '2022-01-01', '2023-01-01')
+history = get_ticket_history('SBER', '2010-01-01', '2023-01-01')
 
-columns = ['BOARDID', 'TRADEDATE', 'SHORTNAME', 'SECID', 'NUMTRADES', 'VALUE', 'OPEN', 'LOW', 'HIGH', 'LEGALCLOSEPRICE', 'WAPRICE', 'CLOSE', 'VOLUME', 'MARKETPRICE2', 'MARKETPRICE3', 'ADMITTEDQUOTE', 'MP2VALTRD','MARKETPRICE3TRADESVALUE', 'ADMITTEDVALUE', 'WAVAL', 'TRADINGSESSION']
-
-dataframe = pd.DataFrame.from_dict(history['history']['data'])
-dataframe.columns = columns
+dataframe = pd.DataFrame(history, columns=['open', 'close', 'high', 'low', 'value', 'volume', 'begin', 'end'])
 
 print(dataframe)
 
-df2 = dataframe[['OPEN', 'LOW', 'HIGH', 'CLOSE']].copy()
-
-df3 = dataframe.loc[((dataframe['BOARDID'] == 'TQBR') & (dataframe['CLOSE']))]
-
-print(df3)
-
-plt.plot(df3['CLOSE'])
+plt.plot(dataframe['close'])
 plt.show()
