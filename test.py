@@ -1,5 +1,6 @@
 from pprint import pprint
 
+import pandas as pd
 import requests
 
 
@@ -20,10 +21,10 @@ def get_ticket_history(ticker, from_date, till_date):
 
 
 history = get_ticket_history('MOEX', '2022-01-01', '2023-01-01')
-#pprint(history)
 
-print(history['history']['columns'])
+pprint(history)
 
-for point in history['history']['data'][:10]:
-    print(point)
+dataframe = pd.DataFrame.from_dict(history['history']['data'], columns=history['history']['columns'], orient='index')
+
+print(dataframe)
 
