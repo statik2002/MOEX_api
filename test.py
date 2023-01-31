@@ -5,7 +5,7 @@ import requests
 import matplotlib.pyplot as plt
 
 
-def get_ticket_history(ticker, from_date, till_date):
+def get_ticket_history(ticker, from_date, till_date, interval):
     url = f'https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/{ticker}/candles.json'
 
     page = 0
@@ -16,7 +16,7 @@ def get_ticket_history(ticker, from_date, till_date):
         'from': from_date,
         'till': till_date,
         'start': page,
-        'interval': 24,
+        'interval': interval,
     }
     response = requests.get(url, params=params)
     response.raise_for_status()
@@ -31,7 +31,7 @@ def get_ticket_history(ticker, from_date, till_date):
             'from': from_date,
             'till': till_date,
             'start': page,
-            'interval': 24,
+            'interval': interval,
         }
         response = requests.get(url, params=params)
         response.raise_for_status()
@@ -46,7 +46,7 @@ def get_ticket_history(ticker, from_date, till_date):
     return response_data
 
 
-history = get_ticket_history('SBER', '2010-01-01', '2023-01-01')
+history = get_ticket_history('SBER', '2010-01-01', '2023-01-01', 24)
 
 dataframe = pd.DataFrame(history, columns=['open', 'close', 'high', 'low', 'value', 'volume', 'begin', 'end'])
 
