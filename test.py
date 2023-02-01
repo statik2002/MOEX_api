@@ -1,3 +1,4 @@
+import datetime
 from pprint import pprint
 
 import pandas as pd
@@ -46,11 +47,19 @@ def get_ticket_history(ticker, from_date, till_date, interval):
     return response_data
 
 
-history = get_ticket_history('SBER', '2010-01-01', '2023-01-01', 24)
+current_date = datetime.date.today()
+ticker = 'SBER'
+
+history = get_ticket_history(ticker, '2010-01-01', current_date.__str__(), 24)
 
 dataframe = pd.DataFrame(history, columns=['open', 'close', 'high', 'low', 'value', 'volume', 'begin', 'end'])
 
 print(dataframe)
 
+
+
+plt.xlabel('Дни')
+plt.ylabel('Цена')
+plt.suptitle(ticker)
 plt.plot(dataframe['close'])
 plt.show()
