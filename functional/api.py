@@ -123,12 +123,11 @@ def get_all_securities(engine: str, market: str, securities: list = None, langua
     return response.json()
 
 
-def get_spec_security(engine: str, market: str, securities: list, language: str = 'ru'):
-    url = f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities.json'
+def get_spec_security(engine: str, market: str, security: str, language: str = 'ru'):
+    url = f'https://iss.moex.com/iss/engines/{engine}/markets/{market}/securities/{security}.json'
 
     params = {
         'lang': language,
-        'securities': ','.join(securities)
     }
 
     response = requests.get(url, params=params)

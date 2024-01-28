@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 from functional.api import get_ticket_history, get_securities, get_security, get_index, get_engines, \
     get_engine_description, get_engine_markets, get_market_fields_description, get_trades_modes, get_all_securities, \
-    get_security_candles
+    get_security_candles, get_spec_security
 
 current_date = datetime.date.today()
 ticker = 'SBER'
@@ -28,7 +28,7 @@ ticker = 'SBER'
 #plt.show()
 
 
-#data = get_securities(is_trading=True)
+#data = get_securities('SBER')
 #data = get_security('SBER')
 #data = get_index()
 #data = get_engines()
@@ -37,7 +37,7 @@ ticker = 'SBER'
 #data = get_market_fields_description('stock', 'shares')
 #data = get_trades_modes('stock', 'shares')
 #data = get_all_securities('stock', 'shares', securities=['SBER', 'VTBR'])
-#data = get_all_securities('stock', 'shares', securities=['SBER', 'VTBR'])
-data = get_security_candles('stock', 'shares', 'SBER')
+data = get_spec_security('stock', 'shares', security='SBER')
+#data = get_security_candles('stock', 'shares', 'SBER')
 
 pprint(data)
