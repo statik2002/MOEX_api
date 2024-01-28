@@ -63,8 +63,8 @@
 ---
 
 ### `get_spec_security()` - Получить данные по конкретному инструменту рынка.
-`get_spec_security(engine: str, market: str, securities: list, language: str = 'ru')`
-В `securities` необходимо указать список тикетов от 1 до 10
+`get_spec_security(engine: str, market: str, security: str, language: str = 'ru')`
+В `security` необходимо указать тикет
 
 ---
 
