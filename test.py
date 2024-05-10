@@ -36,17 +36,20 @@ for line in ResistLine.resist_lines:
 #pprint(history)
 
 
-#dataframe = pd.DataFrame(history, columns=['open', 'close', 'high', 'low', 'value', 'volume', 'begin', 'end'])
+dataframe = pd.DataFrame(history, columns=['open', 'close', 'high', 'low', 'value', 'volume', 'begin', 'end'])
 
 #print(dataframe)
 
 
-
-#plt.xlabel('Дни')
-#plt.ylabel('Цена')
-#plt.suptitle(ticker)
-#plt.plot(dataframe['close'])
-#plt.show()
+plt.xlabel('Дни')
+plt.ylabel('Цена')
+plt.suptitle(ticker)
+plt.plot(dataframe['close'])
+for line in ResistLine.resist_lines:
+    x = [0, len(history)]
+    y = [line.level, line.level]
+    plt.plot(x, y, label=f'line {line.level}')
+plt.show()
 
 
 #data = get_securities('SBER')
